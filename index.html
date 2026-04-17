@@ -155,6 +155,83 @@
       font-family: "SF Mono", ui-monospace, monospace;
     }
 
+    /* ── SOUNDS ── */
+    .sounds-section {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 24px 80px;
+    }
+    .sounds-section h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .sounds-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 10px;
+    }
+    .sound-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: border-color .15s;
+    }
+    .sound-card:hover { border-color: var(--accent); }
+    .sound-play {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--border);
+      border: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: background .15s;
+    }
+    .sound-play:hover { background: var(--accent); }
+    .sound-play:hover svg { stroke: #0a0a0a; }
+    .sound-play svg { stroke: var(--text); }
+    .sound-play.playing { background: var(--accent); }
+    .sound-play.playing svg { stroke: #0a0a0a; }
+    .sound-info { flex: 1; min-width: 0; }
+    .sound-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sound-dl {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 3px;
+    }
+    .sound-dl:hover { color: var(--accent); }
+    .sounds-note {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .sounds-note code {
+      background: var(--border);
+      padding: 1px 6px;
+      border-radius: 5px;
+      font-size: 0.78rem;
+      font-family: "SF Mono", ui-monospace, monospace;
+    }
+
     /* ── FOOTER ── */
     footer {
       margin-top: auto;
@@ -307,9 +384,138 @@
     </div>
   </div>
 
+  <!-- SOUNDS -->
+  <div class="sounds-section" id="sounds">
+    <h2>Sound packs</h2>
+    <div class="sounds-grid">
+
+      <div class="sound-card">
+        <button class="sound-play" onclick="togglePlay(this,'sounds/moan.mp3')" aria-label="Preview">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+        </button>
+        <div class="sound-info">
+          <div class="sound-name">😩 Moan</div>
+          <a class="sound-dl" href="sounds/moan.mp3" download>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </a>
+        </div>
+      </div>
+
+      <div class="sound-card">
+        <button class="sound-play" onclick="togglePlay(this,'sounds/male.mp3')" aria-label="Preview">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+        </button>
+        <div class="sound-info">
+          <div class="sound-name">🧔 Male moan</div>
+          <a class="sound-dl" href="sounds/male.mp3" download>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </a>
+        </div>
+      </div>
+
+      <div class="sound-card">
+        <button class="sound-play" onclick="togglePlay(this,'sounds/man.mp3')" aria-label="Preview">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+        </button>
+        <div class="sound-info">
+          <div class="sound-name">🗣️ Man</div>
+          <a class="sound-dl" href="sounds/man.mp3" download>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </a>
+        </div>
+      </div>
+
+      <div class="sound-card">
+        <button class="sound-play" onclick="togglePlay(this,'sounds/goat.mp3')" aria-label="Preview">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+        </button>
+        <div class="sound-info">
+          <div class="sound-name">🐐 Goat</div>
+          <a class="sound-dl" href="sounds/goat.mp3" download>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </a>
+        </div>
+      </div>
+
+      <div class="sound-card">
+        <button class="sound-play" onclick="togglePlay(this,'sounds/yamete.mp3')" aria-label="Preview">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+        </button>
+        <div class="sound-info">
+          <div class="sound-name">🇯🇵 Yamete</div>
+          <a class="sound-dl" href="sounds/yamete.mp3" download>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </a>
+        </div>
+      </div>
+
+      <div class="sound-card">
+        <button class="sound-play" onclick="togglePlay(this,'sounds/fart.mp3')" aria-label="Preview">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+        </button>
+        <div class="sound-info">
+          <div class="sound-name">💨 Fart</div>
+          <a class="sound-dl" href="sounds/fart.mp3" download>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </a>
+        </div>
+      </div>
+
+      <div class="sound-card">
+        <button class="sound-play" onclick="togglePlay(this,'sounds/metal.mp3')" aria-label="Preview">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+        </button>
+        <div class="sound-info">
+          <div class="sound-name">🤘 Metal</div>
+          <a class="sound-dl" href="sounds/metal.mp3" download>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </a>
+        </div>
+      </div>
+
+    </div>
+    <p class="sounds-note">
+      Download any sound, then in Slap → <code>+ Add sounds…</code> and pick the file.
+    </p>
+  </div>
+
   <footer>
     Made with questionable judgment · <a href="Slap.zip" download style="color:inherit">Download Slap.zip</a>
   </footer>
 
+  <script>
+    let currentAudio = null;
+    let currentBtn = null;
+    const pauseIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>`;
+    const playIcon  = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>`;
+
+    function togglePlay(btn, src) {
+      if (currentAudio && currentBtn === btn) {
+        currentAudio.pause(); currentAudio.currentTime = 0;
+        btn.classList.remove('playing'); btn.innerHTML = playIcon;
+        currentAudio = null; currentBtn = null;
+        return;
+      }
+      if (currentAudio) {
+        currentAudio.pause(); currentAudio.currentTime = 0;
+        currentBtn.classList.remove('playing'); currentBtn.innerHTML = playIcon;
+      }
+      const audio = new Audio(src);
+      currentAudio = audio; currentBtn = btn;
+      btn.classList.add('playing'); btn.innerHTML = pauseIcon;
+      audio.play();
+      audio.onended = () => {
+        btn.classList.remove('playing'); btn.innerHTML = playIcon;
+        currentAudio = null; currentBtn = null;
+      };
+    }
+  </script>
 </body>
 </html>
