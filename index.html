@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,14 +8,32 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --bg:      #07070f;
-      --surface: #0f0f1a;
-      --border:  #1e1e32;
-      --accent:  #f5c542;
-      --text:    #e8e8f0;
-      --muted:   #6b6b88;
-      --radius:  16px;
+    /* ── THEMES ── */
+    :root, [data-theme="dark"] {
+      --bg:       #07070f;
+      --surface:  #0f0f1a;
+      --border:   #1e1e32;
+      --accent:   #f5c542;
+      --text:     #e8e8f0;
+      --muted:    #6b6b88;
+      --radius:   16px;
+      --shadow:   rgba(0,0,0,.6);
+      --menubar-bg: #1c1c1e;
+      --menubar-color: #ddd;
+      --icon-shadow: rgba(245,197,66,.25), 0 8px 32px rgba(0,0,0,.6);
+    }
+
+    [data-theme="light"] {
+      --bg:       #f5f5f7;
+      --surface:  #ffffff;
+      --border:   #d8d8e0;
+      --accent:   #d4a017;
+      --text:     #1a1a2e;
+      --muted:    #6e6e82;
+      --shadow:   rgba(0,0,0,.12);
+      --menubar-bg: #e8e8ed;
+      --menubar-color: #333;
+      --icon-shadow: rgba(212,160,23,.2), 0 8px 32px rgba(0,0,0,.15);
     }
 
     body {
@@ -26,13 +44,46 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      transition: background .25s, color .25s;
     }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      width: 100%;
+      max-width: 680px;
+      padding: 16px 24px 0;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    .topbar-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color .15s, color .15s, background .25s;
+      white-space: nowrap;
+    }
+    .topbar-btn:hover { border-color: var(--accent); color: var(--text); }
+    .topbar-btn svg { flex-shrink: 0; }
+
+    /* lang active pill */
+    .lang-btn .lang-opt { opacity: .45; }
+    .lang-btn .lang-opt.active { opacity: 1; color: var(--accent); }
+    .lang-sep { opacity: .3; }
 
     /* ── HERO ── */
     .hero {
       width: 100%;
       max-width: 680px;
-      padding: 80px 24px 60px;
+      padding: 52px 24px 60px;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -40,15 +91,12 @@
       gap: 28px;
     }
 
-    .icon-wrap {
-      position: relative;
-      display: inline-block;
-    }
+    .icon-wrap { display: inline-block; }
     .icon-wrap img {
       width: 120px;
       height: 120px;
       border-radius: 26px;
-      box-shadow: 0 0 60px rgba(245,197,66,.25), 0 8px 32px rgba(0,0,0,.6);
+      box-shadow: 0 0 60px var(--icon-shadow);
     }
 
     h1 {
@@ -87,10 +135,7 @@
     .dl-btn:active { transform: translateY(0); }
     .dl-btn svg { flex-shrink: 0; }
 
-    .dl-note {
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
+    .dl-note { font-size: 0.78rem; color: var(--muted); }
     .dl-note a { color: var(--muted); text-underline-offset: 3px; }
 
     /* ── FEATURES ── */
@@ -111,6 +156,7 @@
       display: flex;
       gap: 16px;
       align-items: flex-start;
+      transition: background .25s, border-color .25s;
     }
     .feat-icon { font-size: 1.6rem; line-height: 1; flex-shrink: 0; margin-top: 2px; }
     .feat-body h3 { font-size: 0.9rem; font-weight: 650; margin-bottom: 4px; }
@@ -125,8 +171,9 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 28px 32px;
+      transition: background .25s, border-color .25s;
     }
-    .install h2 {
+    .section-title {
       font-size: 1rem;
       font-weight: 700;
       margin-bottom: 18px;
@@ -161,14 +208,6 @@
       max-width: 680px;
       margin: 0 24px 80px;
     }
-    .sounds-section h2 {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 18px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: .08em;
-    }
     .sounds-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
@@ -182,7 +221,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      transition: border-color .15s;
+      transition: border-color .15s, background .25s;
     }
     .sound-card:hover { border-color: var(--accent); }
     .sound-play {
@@ -194,12 +233,10 @@
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
       transition: background .15s;
+      color: var(--text);
     }
-    .sound-play:hover { background: var(--accent); }
-    .sound-play:hover svg { stroke: #0a0a0a; }
-    .sound-play svg { stroke: var(--text); }
-    .sound-play.playing { background: var(--accent); }
-    .sound-play.playing svg { stroke: #0a0a0a; }
+    .sound-play:hover { background: var(--accent); color: #0a0a0a; }
+    .sound-play.playing { background: var(--accent); color: #0a0a0a; }
     .sound-info { flex: 1; min-width: 0; }
     .sound-name {
       font-size: 0.88rem;
@@ -240,10 +277,11 @@
       color: var(--muted);
       text-align: center;
     }
+    footer a { color: var(--muted); }
 
     /* ── MENU BAR MOCKUP ── */
     .menubar-mockup {
-      background: #1c1c1e;
+      background: var(--menubar-bg);
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 7px 14px;
@@ -251,22 +289,45 @@
       display: inline-flex;
       gap: 20px;
       align-items: center;
-      color: #ddd;
-      box-shadow: 0 4px 20px rgba(0,0,0,.5);
+      color: var(--menubar-color);
+      box-shadow: 0 4px 20px var(--shadow);
       margin-bottom: 8px;
+      transition: background .25s, border-color .25s;
     }
     .menubar-item { opacity: .5; }
     .menubar-item.active { opacity: 1; font-weight: 600; }
+
+    /* ── SVG icons reuse ── */
+    .dl-icon { display:none; }
   </style>
 </head>
 <body>
 
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <button class="topbar-btn lang-btn" onclick="toggleLang()" id="langBtn" aria-label="Switch language">
+      <span class="lang-opt active" id="langEN">EN</span>
+      <span class="lang-sep">/</span>
+      <span class="lang-opt" id="langSK">SK</span>
+    </button>
+    <button class="topbar-btn" onclick="toggleTheme()" id="themeBtn" aria-label="Toggle theme">
+      <svg id="themeIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+      <span id="themeLabel">Light</span>
+    </button>
+  </div>
+
+  <!-- HERO -->
   <div class="hero">
     <div class="icon-wrap">
       <img src="icon.png" alt="Slap icon" />
     </div>
 
-    <!-- menu bar preview -->
     <div class="menubar-mockup">
       <span class="menubar-item">🔋</span>
       <span class="menubar-item">📶</span>
@@ -274,9 +335,9 @@
       <span class="menubar-item">🕐</span>
     </div>
 
-    <h1>Slap your Mac.<br/><span>It moans.</span></h1>
+    <h1 data-i18n="heroTitle">Slap your Mac.<br/><span data-i18n="heroSpan">It moans.</span></h1>
 
-    <p class="tagline">
+    <p class="tagline" data-i18n="tagline">
       A tiny menu bar app that reads your MacBook's built-in accelerometer.
       Slap it — it responds. Harder slap, louder moan.
     </p>
@@ -288,11 +349,11 @@
           <polyline points="7 10 12 15 17 10"/>
           <line x1="12" y1="15" x2="12" y2="3"/>
         </svg>
-        Download for Mac — Free
+        <span data-i18n="dlBtn">Download for Mac — Free</span>
       </a>
       <p class="dl-note">
         macOS 13+ · Apple Silicon &amp; Intel ·
-        <a href="#install">First launch instructions ↓</a>
+        <a href="#install" data-i18n="dlNote">First launch instructions ↓</a>
       </p>
     </div>
   </div>
@@ -302,220 +363,351 @@
     <div class="feat">
       <div class="feat-icon">📡</div>
       <div class="feat-body">
-        <h3>Reads the built-in accelerometer</h3>
-        <p>Uses the real hardware sensor — no microphone, no camera. Works on M1 through M4.</p>
+        <h3 data-i18n="f1t">Reads the built-in accelerometer</h3>
+        <p data-i18n="f1d">Uses the real hardware sensor — no microphone, no camera. Works on M1 through M4.</p>
       </div>
     </div>
     <div class="feat">
       <div class="feat-icon">💪</div>
       <div class="feat-body">
-        <h3>Volume scales with force</h3>
-        <p>Gentle tap? Whisper. Full slap? Full volume. Proportional feedback.</p>
+        <h3 data-i18n="f2t">Volume scales with force</h3>
+        <p data-i18n="f2d">Gentle tap? Whisper. Full slap? Full volume. Proportional feedback.</p>
       </div>
     </div>
     <div class="feat">
       <div class="feat-icon">🎚️</div>
       <div class="feat-body">
-        <h3>Adjustable sensitivity</h3>
-        <p>From "earthquake detector" to "needs a running start". Tune it in the menu.</p>
+        <h3 data-i18n="f3t">Adjustable sensitivity</h3>
+        <p data-i18n="f3d">From "earthquake detector" to "needs a running start". Tune it in the menu.</p>
       </div>
     </div>
     <div class="feat">
       <div class="feat-icon">⏱️</div>
       <div class="feat-body">
-        <h3>Cooldown timer</h3>
-        <p>Prevents meltdowns during rapid slaps. You're welcome, open offices.</p>
+        <h3 data-i18n="f4t">Cooldown timer</h3>
+        <p data-i18n="f4d">Prevents meltdowns during rapid slaps. You're welcome, open offices.</p>
       </div>
     </div>
     <div class="feat">
       <div class="feat-icon">🔌</div>
       <div class="feat-body">
-        <h3>USB Moaner</h3>
-        <p>Plug or unplug a USB device. It moans. We're not sorry.</p>
+        <h3 data-i18n="f5t">USB Moaner</h3>
+        <p data-i18n="f5d">Plug or unplug a USB device. It moans. We're not sorry.</p>
       </div>
     </div>
     <div class="feat">
       <div class="feat-icon">🔊</div>
       <div class="feat-body">
-        <h3>Custom sounds</h3>
-        <p>Add your own audio files. Random shuffle or pick one. Your Mac, your rules.</p>
+        <h3 data-i18n="f6t">Custom sounds</h3>
+        <p data-i18n="f6d">Add your own audio files. Random shuffle or pick one. Your Mac, your rules.</p>
       </div>
     </div>
     <div class="feat">
       <div class="feat-icon">👻</div>
       <div class="feat-body">
-        <h3>Menu bar only</h3>
-        <p>No dock icon. Lives silently in the menu bar. Always ready.</p>
+        <h3 data-i18n="f7t">Menu bar only</h3>
+        <p data-i18n="f7d">No dock icon. Lives silently in the menu bar. Always ready.</p>
       </div>
     </div>
     <div class="feat">
       <div class="feat-icon">🏆</div>
       <div class="feat-body">
-        <h3>Slap counter</h3>
-        <p>Tracks your lifetime slaps in the menu bar. High score pending.</p>
+        <h3 data-i18n="f8t">Slap counter</h3>
+        <p data-i18n="f8d">Tracks your lifetime slaps in the menu bar. High score pending.</p>
       </div>
     </div>
   </div>
 
   <!-- INSTALL GUIDE -->
   <div class="install" id="install">
-    <h2>How to install</h2>
+    <h2 class="section-title" data-i18n="installTitle">How to install</h2>
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
-        <div class="step-text">Download <code>Slap.zip</code> and unzip it — you get <code>Slap.app</code>.</div>
+        <div class="step-text" data-i18n="step1">Download <code>Slap.zip</code> and unzip it — you get <code>Slap.app</code>.</div>
       </div>
       <div class="step">
         <div class="step-num">2</div>
-        <div class="step-text">Drag <code>Slap.app</code> to your <code>/Applications</code> folder.</div>
+        <div class="step-text" data-i18n="step2">Drag <code>Slap.app</code> to your <code>/Applications</code> folder.</div>
       </div>
       <div class="step">
         <div class="step-num">3</div>
-        <div class="step-text">
-          <strong>Right-click → Open</strong> on the first launch.
-          macOS will warn about an unidentified developer — click <em>Open</em> anyway.
-          (This only happens once.)
-        </div>
+        <div class="step-text" data-i18n="step3"><strong>Right-click → Open</strong> on the first launch. macOS will warn about an unidentified developer — click <em>Open</em> anyway. (This only happens once.)</div>
       </div>
       <div class="step">
         <div class="step-num">4</div>
-        <div class="step-text">The <strong>👋</strong> icon appears in your menu bar. Slap your Mac.</div>
+        <div class="step-text" data-i18n="step4">The <strong>👋</strong> icon appears in your menu bar. Slap your Mac.</div>
       </div>
     </div>
   </div>
 
   <!-- SOUNDS -->
   <div class="sounds-section" id="sounds">
-    <h2>Sound packs</h2>
+    <h2 class="section-title" data-i18n="soundsTitle">Sound packs</h2>
     <div class="sounds-grid">
 
       <div class="sound-card">
         <button class="sound-play" onclick="togglePlay(this,'sounds/moan.mp3')" aria-label="Preview">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
         </button>
         <div class="sound-info">
           <div class="sound-name">😩 Moan</div>
-          <a class="sound-dl" href="sounds/moan.mp3" download>
+          <a class="sound-dl" href="sounds/moan.mp3" download data-i18n-attr="download-label">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download
+            <span data-i18n="download">Download</span>
           </a>
         </div>
       </div>
 
       <div class="sound-card">
         <button class="sound-play" onclick="togglePlay(this,'sounds/male.mp3')" aria-label="Preview">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
         </button>
         <div class="sound-info">
           <div class="sound-name">🧔 Male moan</div>
           <a class="sound-dl" href="sounds/male.mp3" download>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download
+            <span data-i18n="download">Download</span>
           </a>
         </div>
       </div>
 
       <div class="sound-card">
         <button class="sound-play" onclick="togglePlay(this,'sounds/man.mp3')" aria-label="Preview">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
         </button>
         <div class="sound-info">
           <div class="sound-name">🗣️ Man</div>
           <a class="sound-dl" href="sounds/man.mp3" download>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download
+            <span data-i18n="download">Download</span>
           </a>
         </div>
       </div>
 
       <div class="sound-card">
         <button class="sound-play" onclick="togglePlay(this,'sounds/goat.mp3')" aria-label="Preview">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
         </button>
         <div class="sound-info">
           <div class="sound-name">🐐 Goat</div>
           <a class="sound-dl" href="sounds/goat.mp3" download>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download
+            <span data-i18n="download">Download</span>
           </a>
         </div>
       </div>
 
       <div class="sound-card">
         <button class="sound-play" onclick="togglePlay(this,'sounds/yamete.mp3')" aria-label="Preview">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
         </button>
         <div class="sound-info">
           <div class="sound-name">🇯🇵 Yamete</div>
           <a class="sound-dl" href="sounds/yamete.mp3" download>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download
+            <span data-i18n="download">Download</span>
           </a>
         </div>
       </div>
 
       <div class="sound-card">
         <button class="sound-play" onclick="togglePlay(this,'sounds/fart.mp3')" aria-label="Preview">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
         </button>
         <div class="sound-info">
           <div class="sound-name">💨 Fart</div>
           <a class="sound-dl" href="sounds/fart.mp3" download>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download
+            <span data-i18n="download">Download</span>
           </a>
         </div>
       </div>
 
       <div class="sound-card">
         <button class="sound-play" onclick="togglePlay(this,'sounds/metal.mp3')" aria-label="Preview">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
         </button>
         <div class="sound-info">
           <div class="sound-name">🤘 Metal</div>
           <a class="sound-dl" href="sounds/metal.mp3" download>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download
+            <span data-i18n="download">Download</span>
           </a>
         </div>
       </div>
 
     </div>
-    <p class="sounds-note">
+    <div style="margin-top:16px;">
+      <a class="dl-btn" href="sounds/sounds-all.zip" download style="font-size:0.92rem; padding:12px 28px; box-shadow:none; display:inline-flex; gap:8px; align-items:center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span data-i18n="dlAllBtn">Download all sounds</span>
+      </a>
+    </div>
+
+    <p class="sounds-note" data-i18n="soundsNote">
       Download any sound, then in Slap → <code>+ Add sounds…</code> and pick the file.
     </p>
   </div>
 
   <footer>
-    Made with questionable judgment · <a href="Slap.zip" download style="color:inherit">Download Slap.zip</a>
+    <span data-i18n="footer">Made with questionable judgment</span> ·
+    <a href="Slap.zip" download data-i18n="footerDl">Download Slap.zip</a>
   </footer>
 
   <script>
+    /* ── TRANSLATIONS ── */
+    const i18n = {
+      en: {
+        heroTitle:    'Slap your Mac.<br/><span>It moans.</span>',
+        tagline:      "A tiny menu bar app that reads your MacBook's built-in accelerometer. Slap it — it responds. Harder slap, louder moan.",
+        dlBtn:        'Download for Mac — Free',
+        dlNote:       'First launch instructions ↓',
+        f1t: 'Reads the built-in accelerometer',
+        f1d: 'Uses the real hardware sensor — no microphone, no camera. Works on M1 through M4.',
+        f2t: 'Volume scales with force',
+        f2d: 'Gentle tap? Whisper. Full slap? Full volume. Proportional feedback.',
+        f3t: 'Adjustable sensitivity',
+        f3d: 'From "earthquake detector" to "needs a running start". Tune it in the menu.',
+        f4t: 'Cooldown timer',
+        f4d: "Prevents meltdowns during rapid slaps. You're welcome, open offices.",
+        f5t: 'USB Moaner',
+        f5d: "Plug or unplug a USB device. It moans. We're not sorry.",
+        f6t: 'Custom sounds',
+        f6d: 'Add your own audio files. Random shuffle or pick one. Your Mac, your rules.',
+        f7t: 'Menu bar only',
+        f7d: 'No dock icon. Lives silently in the menu bar. Always ready.',
+        f8t: 'Slap counter',
+        f8d: 'Tracks your lifetime slaps in the menu bar. High score pending.',
+        installTitle: 'How to install',
+        step1: 'Download <code>Slap.zip</code> and unzip it — you get <code>Slap.app</code>.',
+        step2: 'Drag <code>Slap.app</code> to your <code>/Applications</code> folder.',
+        step3: '<strong>Right-click → Open</strong> on the first launch. macOS will warn about an unidentified developer — click <em>Open</em> anyway. (This only happens once.)',
+        step4: 'The <strong>👋</strong> icon appears in your menu bar. Slap your Mac.',
+        soundsTitle: 'Sound packs',
+        soundsNote:  'Download any sound, then in Slap → <code>+ Add sounds…</code> and pick the file.',
+        download:    'Download',
+        dlAllBtn:    'Download all sounds',
+        footer:      'Made with questionable judgment',
+        footerDl:    'Download Slap.zip',
+        themeLight:  'Light',
+        themeDark:   'Dark',
+      },
+      sk: {
+        heroTitle:    'Pleskni Mac.<br/><span>Zasteká.</span>',
+        tagline:      'Malá appka v menu bare, ktorá číta vstavaný akcelerometer MacBooku. Pleskni ho — reaguje. Silnejšie plesknutie, hlasnejší zvuk.',
+        dlBtn:        'Stiahnuť pre Mac — Zadarmo',
+        dlNote:       'Inštrukcie pre prvé spustenie ↓',
+        f1t: 'Číta vstavaný akcelerometer',
+        f1d: 'Používa skutočný hardvérový senzor — žiadny mikrofón, žiadna kamera. Funguje na M1 až M4.',
+        f2t: 'Hlasitosť závisí od sily',
+        f2d: 'Jemné klepnutie? Šepot. Poriadne plesknutie? Plná hlasitosť. Proporcionálna odozva.',
+        f3t: 'Nastaviteľná citlivosť',
+        f3d: 'Od „detektora zemetrasenia" po „treba sa rozbehnúť". Nastavíš v menu.',
+        f4t: 'Časovač ochladenia',
+        f4d: 'Zabraňuje hysterickým situáciám pri rýchlych plesknutiach. Vítaná funkcia v open space.',
+        f5t: 'USB Moaner',
+        f5d: 'Zapoj alebo odpoj USB zariadenie. Zasteká. Neoľutujeme.',
+        f6t: 'Vlastné zvuky',
+        f6d: 'Pridaj si vlastné zvukové súbory. Náhodne alebo konkrétny. Tvoj Mac, tvoje pravidlá.',
+        f7t: 'Len v menu bare',
+        f7d: 'Žiadna ikona v docku. Ticho čaká v menu bare. Vždy pripravená.',
+        f8t: 'Počítadlo plesknutí',
+        f8d: 'Sleduje počet plesknutí v menu bare. Rekord sa čaká.',
+        installTitle: 'Ako nainštalovať',
+        step1: 'Stiahni <code>Slap.zip</code> a rozbaľ — dostaneš <code>Slap.app</code>.',
+        step2: 'Presuň <code>Slap.app</code> do priečinka <code>/Applications</code>.',
+        step3: '<strong>Pravý klik → Otvoriť</strong> pri prvom spustení. macOS upozorní na neznámeho vývojára — klikni <em>Otvoriť</em>. (Stačí raz.)',
+        step4: 'V menu bare sa objaví ikona <strong>👋</strong>. Pleskni Mac.',
+        soundsTitle: 'Zvukové balíčky',
+        soundsNote:  'Stiahni si zvuk a potom v Slap → <code>+ Add sounds…</code> vyber súbor.',
+        download:    'Stiahnuť',
+        dlAllBtn:    'Stiahnuť všetky zvuky',
+        footer:      'Vytvorené so spornou zodpovednosťou',
+        footerDl:    'Stiahnuť Slap.zip',
+        themeLight:  'Svetlá',
+        themeDark:   'Tmavá',
+      }
+    };
+
+    /* ── STATE ── */
+    let lang  = localStorage.getItem('slap-lang')  || 'en';
+    let theme = localStorage.getItem('slap-theme') || 'dark';
+
+    /* ── APPLY LANGUAGE ── */
+    function applyLang(l) {
+      lang = l;
+      localStorage.setItem('slap-lang', l);
+      document.documentElement.lang = l;
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (i18n[l][key] !== undefined) el.innerHTML = i18n[l][key];
+      });
+
+      // Update lang button
+      document.getElementById('langEN').classList.toggle('active', l === 'en');
+      document.getElementById('langSK').classList.toggle('active', l === 'sk');
+
+      // Update theme button label
+      const isDark = theme === 'dark';
+      document.getElementById('themeLabel').textContent =
+        isDark ? i18n[l].themeLight : i18n[l].themeDark;
+    }
+
+    /* ── APPLY THEME ── */
+    function applyTheme(t) {
+      theme = t;
+      localStorage.setItem('slap-theme', t);
+      document.documentElement.setAttribute('data-theme', t);
+
+      const isDark = t === 'dark';
+      // Swap icon: sun → go light, moon → go dark
+      document.getElementById('themeIcon').innerHTML = isDark
+        ? `<circle cx="12" cy="12" r="5"/>
+           <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+           <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+           <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+           <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`
+        : `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+
+      document.getElementById('themeLabel').textContent =
+        isDark ? i18n[lang].themeLight : i18n[lang].themeDark;
+    }
+
+    function toggleTheme() { applyTheme(theme === 'dark' ? 'light' : 'dark'); }
+    function toggleLang()  { applyLang(lang === 'en' ? 'sk' : 'en'); }
+
+    /* ── AUDIO PLAYER ── */
     let currentAudio = null;
-    let currentBtn = null;
-    const pauseIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>`;
-    const playIcon  = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>`;
+    let currentBtn   = null;
+    const pauseIcon  = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>`;
+    const playIconSvg = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>`;
 
     function togglePlay(btn, src) {
       if (currentAudio && currentBtn === btn) {
         currentAudio.pause(); currentAudio.currentTime = 0;
-        btn.classList.remove('playing'); btn.innerHTML = playIcon;
+        btn.classList.remove('playing'); btn.innerHTML = playIconSvg;
         currentAudio = null; currentBtn = null;
         return;
       }
       if (currentAudio) {
         currentAudio.pause(); currentAudio.currentTime = 0;
-        currentBtn.classList.remove('playing'); currentBtn.innerHTML = playIcon;
+        currentBtn.classList.remove('playing'); currentBtn.innerHTML = playIconSvg;
       }
       const audio = new Audio(src);
       currentAudio = audio; currentBtn = btn;
       btn.classList.add('playing'); btn.innerHTML = pauseIcon;
       audio.play();
       audio.onended = () => {
-        btn.classList.remove('playing'); btn.innerHTML = playIcon;
+        btn.classList.remove('playing'); btn.innerHTML = playIconSvg;
         currentAudio = null; currentBtn = null;
       };
     }
+
+    /* ── INIT ── */
+    applyTheme(theme);
+    applyLang(lang);
   </script>
 </body>
 </html>
